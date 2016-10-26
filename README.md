@@ -3,7 +3,7 @@
 A photo viewer built on node, express and parse-server
 
 
-# parse-server-example
+## parse-server-example
 
 Example project using the [parse-server](https://github.com/ParsePlatform/parse-server) module on Express.
 

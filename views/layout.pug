@@ -1,0 +1,12 @@
+//- layout.pug
+html
+  head
+    title My Site - #{title}
+    block scripts
+      script(src='/jquery.js')
+  body
+    block top
+      a(href='/') Home
+      a(href='/upload') Upload photo
+    block content
+    block footer

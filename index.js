@@ -1,5 +1,3 @@
-// Example express application adding the parse-server module to expose Parse
-// compatible API routes.
 
 var express = require('express');
 var ParseServer = require('parse-server').ParseServer;
@@ -8,13 +6,11 @@ var fileUpload = require('express-fileupload');
 var photos = require('./app/photos.js');
 var im = require('imagemagick');
 
-
 var databaseUri = process.env.DATABASE_URI || process.env.MONGODB_URI;
 
 if (!databaseUri) {
   console.log('DATABASE_URI not specified, falling back to localhost.');
 }
-
 
 var api = new ParseServer({
   databaseURI: databaseUri || 'mongodb://localhost:27017/dev',
@@ -38,6 +34,7 @@ app.use(fileUpload());
 app.use('/public', express.static(path.join(__dirname, '/public')));
 app.use('/storage', express.static(path.join(__dirname, '/storage')));
 
+app.set('view engine', 'pug');
 
 // Serve the Parse API on the /parse URL prefix
 var mountPath = process.env.PARSE_MOUNT || '/parse';
@@ -45,8 +42,73 @@ app.use(mountPath, api);
 
 // Parse Server plays nicely with the rest of your web routes
 app.get('/', function(req, res) {
-  res.status(200).send('Hi, I dream of being a website.  Please star the parse-server repo on GitHub!');
+  // Get photo from db
+  console.log("SLASH");
+  var photoData;
+  var Photo = Parse.Object.extend("Photo");
+  var query = new Parse.Query(Photo);
+  query.find({
+    success: function(results) {
+      console.log("HEYYYY " + results.length);
+      photoData = results;
+    },
+    error: function(object, error) {
+      console.log("HOW");
+      console.log("Error " + error);
+    }
+  }).then(function() {
+    // Render page with photo data
+    res.render('main', { title: 'Hey!', photos: photoData });
+  });
 });
+
+app.get('/photo/:id', function(req, res) {
+  // Get photo from db
+  var photoData;
+  var Photo = Parse.Object.extend("Photo");
+  var query = new Parse.Query(Photo);
+  query.equalTo("objectId", req.params.id);
+  query.find({
+    success: function(results) {
+      if(results.length > 0) {
+        //console.log("Successfully retrieved " + results.length + " objects.");
+        //console.log(object.id + ' - ' + object.get('tags'));
+        photoData = results[0];
+      }
+    },
+    error: function(object, error) {
+      console.log("HOW");
+      console.log("Error " + error);
+    }
+  }).then(function() {
+    // Render page with photo data
+    res.render('photo', { photo: photoData });
+  });
+
+
+});
+
+
+app.get('/upload', function(req, res) {
+  //res.sendFile(path.join(__dirname, '/public/upload.html'));
+  res.render('upload');
+});
+
+app.post("/upload", function(req, res) {
+  if (!req.files) {
+      res.send('No files were uploaded.');
+      return;
+  }
+
+  var file = req.files.photoupload;
+  photos.handleUpload(file, function(result) {
+    console.log("CALLBACK CALLED:" + result.success);
+  });
+
+  res.status(200).send("Yeh");
+});
+
+
 
 // There will be a test page available on the /test path of your server url
 // Remove this before launching your app
@@ -82,35 +144,14 @@ app.get('/tmp', function(req, res) {
   res.status(200).send("OK");
 });
 
-app.get('/photos/:user/:year/', function(req, res) {
 
-});
 
-app.get('/upload', function(req, res) {
-  res.sendFile(path.join(__dirname, '/public/upload.html'));
-});
-
-app.post("/upload", function(req, res) {
-  var file;
-
-  if (!req.files) {
-      res.send('No files were uploaded.');
-      return;
-  }
-
-  file = req.files.photoupload;
-  photos.handleUpload(file, function(result) {
-    console.log("CALLBACK CALLED:" + result.success);
-  });
-
-  res.status(200).send("Yeh");
-});
 
 var port = process.env.PORT || 1337;
 var httpServer = require('http').createServer(app);
 httpServer.listen(port, function() {
-    console.log('parse-server-example running on port ' + port + '.');
+    console.log('Photos server running on port ' + port + '.');
 });
 
 // This will enable the Live Query real-time server
-ParseServer.createLiveQueryServer(httpServer);
+//ParseServer.createLiveQueryServer(httpServer);

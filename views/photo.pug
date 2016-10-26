@@ -1,0 +1,6 @@
+extends layout.pug
+
+block content
+  h1= 'Showing a photo'
+  p= photo.id
+  img(src=photo.get('path'))

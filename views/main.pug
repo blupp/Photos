@@ -1,0 +1,9 @@
+extends layout.pug
+
+block content
+  h1= 'Photos'
+  a(href='/photo/123') Photo
+
+  each photo in photos
+    a(href='photo/' + photo.id)
+      img(src=photo.get('thumbPath'))
