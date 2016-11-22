@@ -1,8 +1,9 @@
 extends layout.pug
 
 block content
-  h1= 'Photos'
-  a(href='/photo/123') Photo
+  #main-user
+    img.avatar(src="/public/assets/images/avatar.png")
+    .user-name Sebastian Björkelid
 
   each photo in photos
     a(href='photo/' + photo.id)

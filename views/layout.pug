@@ -2,11 +2,16 @@
 html
   head
     title My Site - #{title}
+    block style
+      link(rel='stylesheet', href='/public/assets/css/photos.css')
+      link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
     block scripts
-      script(src='/jquery.js')
+      script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
   body
     block top
-      a(href='/') Home
-      a(href='/upload') Upload photo
+      #topnav
+        //a(href='/')
+        //  li.fa.fa-chevron-left
+        //a(href='/upload') Upload photo
     block content
     block footer

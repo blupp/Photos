@@ -1,0 +1,49 @@
+body {
+  margin: 50px;
+  padding: 0;
+  height: 100%;
+  font-family: arial;
+}
+
+a {
+  text-decoration: none;
+  color: darkgray;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: black;
+}
+
+#main-user {
+  position: relative;
+}
+
+#main-user .avatar {
+  width: 50px;
+}
+
+#main-user .user-name {
+  position: absolute;
+  top: 50%;
+  height: 50px;
+  width: 200px;
+  margin-top: -10px;
+  margin-left: 10px;
+}
+
+#main-user div {
+  display: inline-block;
+}
+
+#photo {
+
+}
+
+#photo img {
+  padding: 0;
+  display: block;
+  margin: 0 auto;
+  max-height: 100%;
+  max-width: 100%;
+}
