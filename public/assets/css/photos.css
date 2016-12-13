@@ -2,7 +2,9 @@ body {
   margin: 50px;
   padding: 0;
   height: 100%;
-  font-family: arial;
+  font-family: 'Open Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 a {
@@ -15,35 +17,58 @@ a:hover {
   color: black;
 }
 
-#main-user {
-  position: relative;
+#title {
+  color: #4A4A4A;
+  font-weight: 600;
+  font-size: 30px;
+  text-align: center;
+  margin-bottom: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-#main-user .avatar {
+
+#title .avatar {
   width: 50px;
+  align-self: flex-start;
 }
 
-#main-user .user-name {
-  position: absolute;
-  top: 50%;
-  height: 50px;
-  width: 200px;
-  margin-top: -10px;
-  margin-left: 10px;
+#title .user-name {
+  margin-left: 15px;
+  align-self: flex-start;
 }
 
-#main-user div {
-  display: inline-block;
+#photos {
+  display: flex;
+  flex-flow: row wrap;
+  align-content: flex-start;
 }
 
 #photo {
+  width: 233px;
+  height: 214px;
+  overflow: hidden;
+  margin: 5px;
+  position: relative;
+}
 
+#photo .darkshade {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  z-index: 10;
 }
 
 #photo img {
-  padding: 0;
-  display: block;
-  margin: 0 auto;
-  max-height: 100%;
-  max-width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  min-width: 50%;
+  min-height: 50%;
+  overflow-x: hidden;
 }

@@ -1,10 +1,13 @@
 extends layout.pug
 
 block content
-  #main-user
-    img.avatar(src="/public/assets/images/avatar.png")
-    .user-name Sebastian Björkelid
+  #title
+      img.avatar(src="/public/assets/images/avatar.png")
+      .user-name Sebastian Björkelid
 
-  each photo in photos
-    a(href='photo/' + photo.id)
-      img(src=photo.get('thumbPath'))
+  #photos
+    each photo in photos
+      #photo
+        a(href='photo/' + photo.id)
+          .darkshade 2016
+          img(src=photo.get('thumbPath'))
